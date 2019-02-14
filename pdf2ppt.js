@@ -63,7 +63,7 @@ function addpptx (pdf_file) {
 	return new Promise(function(resolve, reject) {
 		
 
-		im.convert(['-density', '300', pdf_file, '-resize', '100%',   '-compress','lzw', '-background','white', '-alpha','remove',pdf_file.replace(/pdf/g, "png")], 
+		im.convert(['-density', '220', pdf_file, '-resize', '100%',   '-compress','lzw', '-background','white', '-alpha','remove',pdf_file.replace(/pdf/g, "png")], 
 		function(){
 			console.log(pdf_file)
 			dimensions = sizeOf(pdf_file.replace(/pdf/g, "png"));
