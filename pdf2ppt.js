@@ -53,6 +53,7 @@ function getFiles(dir) {
         }
         // WARNING! I could be something else here!!!
         return `${dir}/${file}`;     // file name (see warning)
+	    
     });
 }
 
@@ -62,6 +63,8 @@ function addpptx (pdf_file) {
 
 	return new Promise(function(resolve, reject) {
 		
+
+
 
 		im.convert(['-density', '220', pdf_file, '-resize', '100%',   '-compress','lzw', '-background','white', '-alpha','remove',pdf_file.replace(/pdf/g, "png")], 
 		function(){
@@ -106,6 +109,10 @@ pptx.setLayout('LAYOUT_4x3');
 
 
 var filetest = getFiles('./pdf')
+
+filetest = filetest.filter(file => RegExp(/\.pdf$/).test(file))
+
+
 var png_file = './temp/temp';
 var ratio;
 var dimensions;
