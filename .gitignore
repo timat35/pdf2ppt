@@ -1,6 +1,6 @@
 __pycache__/
+node_modules/
 pdf/*.pdf
 png/*.png
 svg/*.svg
 *.pptx
-node_modules/*
