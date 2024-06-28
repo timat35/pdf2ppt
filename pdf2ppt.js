@@ -5,8 +5,16 @@ const fs = require('fs');
 var sizeOf = require('image-size');
 var im = require('imagemagick');
 var gConsoleLog = true;
+var exportName;
 
+process.argv.forEach(function (val, index, array) {
+  if (index == 2)
+  {
+  	exportName =  val;
+  }
+});
 
+console.log(exportName)
 // ============================================================================
 
 
@@ -61,39 +69,37 @@ function getFiles(dir) {
 function addpptx (pdf_file) {
 	
 
-	return new Promise(function(resolve, reject) {
+
+	// return new Promise(function(resolve, reject) {
 		
-
-
-
-		im.convert(['-density', '300', pdf_file, '-resize', '100%',   '-compress','lzw', '-background','white', '-alpha','remove',pdf_file.replace(/pdf/g, "png")], 
-		function(){
-			console.log(pdf_file)
-			dimensions = sizeOf(pdf_file.replace(/pdf/g, "png"));
-			ratio = dimensions.width/dimensions.height;
-			var slide = pptx.addNewSlide();	
-
-			pptx_width = 10;
-			pptx_heigth = pptx_width/ratio;
-			pptx_x = 0;
-			pptx_y = (7.5 - pptx_heigth) / 2;
-
-			if (pptx_heigth > 6.5) {
-				
-			  pptx_heigth = 6.5;
-			  pptx_width = pptx_heigth*ratio;
-			  pptx_y = 0.5;
-			  pptx_x = (10 - pptx_width) / 2;
-				
-			}
-
-			slide.addImage({ path:pdf_file.replace(/pdf/g, "png"), x:pptx_x, y:pptx_y, w:pptx_width, h:pptx_heigth });
-			resolve()
+	// 	im.convert(['-density', '300', pdf_file, '-resize', '100%',   '-compress','lzw', '-background','white', '-alpha','remove',pdf_file.replace(/pdf/g, "png")], 
 		
-		});
+	// 	function(){
+	dimensions = sizeOf(pdf_file.replace(/pdf/g, "png"));
+	ratio = dimensions.width/dimensions.height;
+	var slide = pptx.addSlide();	
+
+	pptx_width = 10;
+	pptx_heigth = pptx_width/ratio;
+	pptx_x = 0;
+	pptx_y = (7.5 - pptx_heigth) / 2;
+
+	if (pptx_heigth > 6.5) {
+		
+	  pptx_heigth = 6.5;
+	  pptx_width = pptx_heigth*ratio;
+	  pptx_y = 0.5;
+	  pptx_x = (10 - pptx_width) / 2;
+		
+	}
+
+	slide.addImage({ path:pdf_file.replace(/pdf/g, "png"), x:pptx_x, y:pptx_y, w:pptx_width, h:pptx_heigth });
+			// resolve()
+		
+	// 	});
 		
 	
-	})
+	// })
 }
 
 
@@ -105,7 +111,7 @@ function addpptx (pdf_file) {
 var pptx = new PptxGenJS();
 if (gConsoleLog && process.argv.length != 3) console.log(` * pptxgenjs ver: ${pptx.version}`); // Loaded okay?
 
-pptx.setLayout('LAYOUT_4x3');
+pptx.layout ='LAYOUT_4x3';
 
 
 var filetest = getFiles('./pdf')
@@ -113,21 +119,19 @@ var filetest = getFiles('./pdf')
 filetest = filetest.filter(file => RegExp(/\.pdf$/).test(file))
 
 
-var png_file = './temp/temp';
 var ratio;
 var dimensions;
-var exportName = 'pdf2pptx';
 var i = 1 
-var finish = 0; 
 	
-//processPDF(filetest, exportName)
+// processPDF(filetest, exportName)
+
 
 const promises = filetest.map(addpptx);
 
 Promise.all(
 	promises
 ).then(function() {
-	pptx.save( exportName ); if (gConsoleLog) console.log('\nFile created:\n'+' * '+exportName);
+	pptx.writeFile({ fileName: './pptx/'+exportName }); if (gConsoleLog) console.log('\nFile created:\n'+' * '+exportName);
 	if (gConsoleLog) console.log(`
 	-----------
 	Job's done!

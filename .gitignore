@@ -3,4 +3,6 @@ node_modules/
 pdf/*.pdf
 png/*.png
 svg/*.svg
-*.pptx
+zip/*.zip
+pptx/*.pptx
+
