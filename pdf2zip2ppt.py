@@ -4,7 +4,7 @@ import re
 import zipfile
 import shutil
 
-pattern_list = ['C18_male', 'C18_female', 'C19-20_female', 'C19-20_female', 'C18-20_female', 'C18-20_female']
+pattern_list = ['IRR_cohort_male', 'IRR_cohort_female']
 
 for file_pattern in pattern_list:
 
@@ -21,8 +21,9 @@ for file_pattern in pattern_list:
     with zipfile.ZipFile(path_zip, 'w') as zip_ref:
         # convert to zip
         for file_base in os.listdir(dir_base):
-            if re.search(file_pattern, file_base):
-                zip_ref.write(os.path.join(dir_base, file_base), file_base)
+            if re.search(".pdf", file_base):
+                if re.search(file_pattern, file_base):
+                    zip_ref.write(os.path.join(dir_base, file_base), file_base)
 
 
     # drop PDF and PNG here
