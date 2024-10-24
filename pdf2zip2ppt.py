@@ -4,19 +4,23 @@ import re
 import zipfile
 import shutil
 
-pattern_list = ['IRR_cohort_male', 'IRR_cohort_female']
+pattern_list = ['africa']
+
+
 
 for file_pattern in pattern_list:
+
 
 
     dir_zip = 'zip'
     dir_pdf = 'pdf'
     dir_png = 'png'
-    density = '200'
+    density = '500'
 
 
-    path_zip=dir_zip + '/'+file_pattern+'.zip'
-    dir_base = "C:/project/Occasional/240625_freddie_colorectum/_figs"
+    
+    dir_base = "C:/project/Occasional/20241015_Freddie_murielle_map/_figs"
+    path_zip=dir_base + '/'+file_pattern+'.zip'
 
     with zipfile.ZipFile(path_zip, 'w') as zip_ref:
         # convert to zip
@@ -24,6 +28,8 @@ for file_pattern in pattern_list:
             if re.search(".pdf", file_base):
                 if re.search(file_pattern, file_base):
                     zip_ref.write(os.path.join(dir_base, file_base), file_base)
+
+    print('File created: '+ path_zip + '\n')
 
 
     # drop PDF and PNG here
@@ -41,6 +47,8 @@ for file_pattern in pattern_list:
         zip_ref.extractall(dir_pdf)
 
 
+
+
     for file_base in os.listdir(dir_pdf):
 
         if re.search(".pdf", file_base):
@@ -51,5 +59,6 @@ for file_pattern in pattern_list:
             print(file_png)
 
 
-    subprocess.call(['node','pdf2ppt.js', file_pattern], shell=True)
+    file_pptx = dir_base + "/" + file_pattern
+    subprocess.call(['node','pdf2ppt.js', file_pptx], shell=True)
 

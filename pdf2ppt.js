@@ -14,7 +14,6 @@ process.argv.forEach(function (val, index, array) {
   }
 });
 
-console.log(exportName)
 // ============================================================================
 
 
@@ -30,7 +29,7 @@ else {
 }
 var pptx = new PptxGenJS();
 
-if (gConsoleLog) console.log(` * save location: ${__dirname}`);
+// if (gConsoleLog) console.log(` * save location: `+exportName);
 
 // ============================================================================
 
@@ -131,7 +130,7 @@ const promises = filetest.map(addpptx);
 Promise.all(
 	promises
 ).then(function() {
-	pptx.writeFile({ fileName: './pptx/'+exportName }); if (gConsoleLog) console.log('\nFile created:\n'+' * '+exportName);
+	pptx.writeFile({ fileName: exportName }); if (gConsoleLog) console.log('\nFile created: '+exportName + '.pptx');
 	if (gConsoleLog) console.log(`
 	-----------
 	Job's done!
