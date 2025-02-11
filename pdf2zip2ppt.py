@@ -4,7 +4,7 @@ import re
 import zipfile
 import shutil
 
-pattern_list = ['africa']
+pattern_list = ['MV_']
 
 
 
@@ -19,7 +19,7 @@ for file_pattern in pattern_list:
 
 
     
-    dir_base = "C:/project/Occasional/20241015_Freddie_murielle_map/_figs"
+    dir_base = "C:/project/Occasional/20240910_liver_paper/_figs/draft"
     path_zip=dir_base + '/'+file_pattern+'.zip'
 
     with zipfile.ZipFile(path_zip, 'w') as zip_ref:
